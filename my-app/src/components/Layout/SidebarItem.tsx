@@ -1,6 +1,6 @@
 import {IconType} from 'react-icons'
 
-interface SideBarItemProps{
+interface SidebarItemProps{
     label:string;
     href:string;
     icon:IconType
@@ -10,7 +10,7 @@ interface SideBarItemProps{
 
 
 
-const SideBarItem :React.FC<SideBarItemProps>= ({label,href,icon:Icon,onClick}) =>{
+const SidebarItem :React.FC<SidebarItemProps>= ({label,href,icon:Icon,onClick}) =>{
     return (
     <div className='flex flex-row items-center'>
         <div className='relative rounded-full h-14 w-14 flex items-center justify-center p-4
@@ -27,4 +27,4 @@ const SideBarItem :React.FC<SideBarItemProps>= ({label,href,icon:Icon,onClick}) 
     )
 }
 
-export default SideBarItem
+export default SidebarItem

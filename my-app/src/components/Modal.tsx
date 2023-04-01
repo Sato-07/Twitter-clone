@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, onSubmit, title, body, fo
         }
         onClose();
 
-    },[disabled,onClose]);
+    },[onClose,disabled]);
 
     const handleSubmit = useCallback(()=>{
         if(disabled){
@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, onSubmit, title, body, fo
         }
         onSubmit();
 
-    },[disabled, onSubmit]);
+    },[onSubmit, disabled]);
 
     if (!isOpen){
         return null;
@@ -43,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, onSubmit, title, body, fo
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto
         fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800 bg-opacity-70">
 
-            <div className="relative w-full lg:w3/6 my-6 mx-auto lg:max-w3xl h-full lg:h-auto ">
+            <div className="relative w-full lg:w-2/6 my-6 mx-auto lg:max-w-3xl h-full lg:h-auto ">
                 
                 {/*content*/}
 

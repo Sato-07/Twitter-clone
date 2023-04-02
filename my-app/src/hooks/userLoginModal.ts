@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {create } from 'zustand';
 
 interface LoginModalStore{
@@ -8,31 +7,11 @@ interface LoginModalStore{
 };
 
 
-const UseLoginModal = ():LoginModalStore =>{
-    const[isOpen, setIsOpen] = useState(false);
-
-    const handleOpen = () =>{
-        setIsOpen(true);
-    };
-    const handleClose = () => {
-        setIsOpen(false);
-    };
-
-    useEffect( () =>{
-
-    },[isOpen] );
-
-    return{
-        isOpen,
-        onOpen:handleOpen,
-        onClose:handleClose,
-
-    }
-
-
+const UseLoginModal = create<LoginModalStore>((set) => ({
+    isOpen: false,
+    onOpen: () => set({ isOpen: true }),
+    onClose: () => set({ isOpen: false })
 }
-
+))
 
 export default UseLoginModal
-
-

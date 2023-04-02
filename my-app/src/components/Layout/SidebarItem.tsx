@@ -3,7 +3,7 @@ import {IconType} from 'react-icons'
 interface SidebarItemProps{
     label:string;
     href:string;
-    icon:IconType
+    icon:IconType;
     onClick?:() => void;
 
 }

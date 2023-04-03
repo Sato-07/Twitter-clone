@@ -2,20 +2,31 @@ import UseLoginModal from "@/hooks/userLoginModal"
 import { useCallback, useState } from "react"
 import Input from "../Input";
 import Modal from "../Modal";
+import RegisterModal from "./RegisterModal";
+import useRegisterModal from "@/hooks/userRegisterModal";
 
 
 const LoginModal = () => {
 
     const loginModal = UseLoginModal();
+    const registerModal = useRegisterModal();
 
     const [email, setEmail] = useState('');
     const[password, setPassword] = useState('');
     const[isLoading, setIsLoading] = useState(false);
 
+    const onToggle = useCallback(()=>{
+        if(isLoading){
+            return;
+        }
+        loginModal.onClose();
+        registerModal.onOpen();
+    },[isLoading,loginModal, registerModal])
+
     const onSubmit = useCallback( async () =>{
         try{
             setIsLoading(true);
-            
+
             // // Todo ADD  login 
 
             loginModal.onClose();
@@ -44,6 +55,14 @@ const LoginModal = () => {
         </div>
     )
 
+    const footerContent = (
+        <div className="text-neutral-400 text-center mt-4">
+            <p>Do you not have an account ?
+                <span onClick={onToggle} className="text-white cursor-pointer hover:underline"> Sign up</span>
+            </p>
+        </div>
+    )
+
     return(
     <Modal
     disabled={isLoading}
@@ -53,6 +72,7 @@ const LoginModal = () => {
     onClose={loginModal.onClose}
     onSubmit={onSubmit}
     body={bodyContent}
+    footer={footerContent}
     />)
 }
 

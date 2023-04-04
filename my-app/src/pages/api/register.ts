@@ -26,6 +26,7 @@ export default async function handler(
                     hashedPassword,
                 }
             });
+            return res.status(200).json(user);
 
         }catch(error){
             console.log(error)

@@ -2,8 +2,8 @@ import UseLoginModal from "@/hooks/userLoginModal"
 import { useCallback, useState } from "react"
 import Input from "../Input";
 import Modal from "../Modal";
-import RegisterModal from "./RegisterModal";
 import useRegisterModal from "@/hooks/userRegisterModal";
+import { signIn } from "next-auth/react";
 
 
 const LoginModal = () => {
@@ -27,7 +27,12 @@ const LoginModal = () => {
         try{
             setIsLoading(true);
 
-            // // Todo ADD  login 
+            await signIn('credentials',{
+                email,
+                password
+            })
+
+
 
             loginModal.onClose();
         }catch (error){
@@ -36,7 +41,7 @@ const LoginModal = () => {
             setIsLoading(false);
         }
 
-    },[loginModal] )
+    },[loginModal, email, password] )
 
     const bodyContent=(
         <div className="flex flex-col gap-4">

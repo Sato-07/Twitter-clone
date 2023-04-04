@@ -16,7 +16,7 @@ const RegisterModal = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [userName, setUserName] = useState('');
+    const [username, setUserName] = useState('');
     const[isLoading, setIsLoading] = useState(false);
 
     const onToggle = useCallback( () =>{
@@ -36,8 +36,9 @@ const RegisterModal = () => {
                 email,
                 password,
                 name,
-                userName
+                username
             })
+            console.log(email,password,name,username)
 
             setIsLoading(false)
 
@@ -49,6 +50,7 @@ const RegisterModal = () => {
                 password
             })
 
+
             registerModal.onClose();
         }catch (error){
             console.log(error)
@@ -57,7 +59,7 @@ const RegisterModal = () => {
             setIsLoading(false);
         }
 
-    },[registerModal, email, password, name, userName] )
+    },[registerModal, email, password, name, username] )
 
     const bodyContent=(
         <div className="flex flex-col gap-4">
@@ -76,7 +78,7 @@ const RegisterModal = () => {
             <Input
             placeholder="Username"
             onChange={(e) => setUserName(e.target.value)}
-            value={userName}
+            value={username}
             disabled={isLoading}
             /> 
             <Input

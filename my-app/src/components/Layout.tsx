@@ -1,4 +1,4 @@
-import Followbar from "./Followbar";
+import Followbar from "./Layout/Followbar";
 import Sidebar from "./Layout/Sidebar";
 
 interface LayoutProps{

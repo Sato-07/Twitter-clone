@@ -1,66 +1,86 @@
-import useCurrentUser from "@/hooks/useCurrentUser"
-import UseEditModal from "@/hooks/useEditModal";
-import useUser from "@/hooks/useUser";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+
+import useCurrentUser from "@/hooks/useCurrentUser";
+import useEditModal from "@/hooks/useEditModal";
+import useUser from "@/hooks/useUser";
+
+import Input from "../Input";
 import Modal from "../Modal";
 
-
 const EditModal = () => {
+  const { data: currentUser } = useCurrentUser();
+  const { mutate: mutateFetchedUser } = useUser(currentUser?.id);
+  const editModal = useEditModal();
 
-    const {data : currentUser } = useCurrentUser();
-    const {mutate: mutateFetchedUser} = useUser(currentUser?.id)
-    const editModal = UseEditModal()
+  const [profileImage, setProfileImage] = useState('');
+  const [coverImage, setCoverImage] = useState('');
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [bio, setBio] = useState('');
 
-    const [prodileImage, setProfileImage] = useState('');
-    const [coverImage, setCoverImage] = useState('');
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [bio, setBio] = useState('');
+  useEffect(() => {
+    setProfileImage(currentUser?.profileImage)
+    setCoverImage(currentUser?.coverImage)
+    setName(currentUser?.name)
+    setUsername(currentUser?.username)
+    setBio(currentUser?.bio)
+  }, [currentUser?.name, currentUser?.username, currentUser?.bio, currentUser?.profileImage, currentUser?.coverImage]);
+  
+  const [isLoading, setIsLoading] = useState(false);
 
-    useEffect( () =>{
-        setProfileImage(currentUser?.prodileImage);
-        setCoverImage(currentUser?.coverImage);
-        setName(currentUser?.name);
-        setUsername(currentUser?.username);
-        setBio(currentUser?.bio)
+  const onSubmit = useCallback(async () => {
+    try {
+      setIsLoading(true);
 
-    },[currentUser?.prodileImage, currentUser?.coverImage, currentUser?.name, currentUser?.username, currentUser?.bio] )
+      await axios.patch('/api/edit', { name, username, bio, profileImage, coverImage });
+      mutateFetchedUser();
 
-    const [isLoading, setIsLoading] = useState(false)
+      toast.success('Updated');
 
-    const onSubmit = useCallback(async () => {
-        try { 
-            setIsLoading(true)
+      editModal.onClose();
+    } catch (error) {
+      toast.error('Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [editModal, name, username, bio, mutateFetchedUser, profileImage, coverImage]);
 
-            await axios.patch('/api/edit',{
-                name,
-                username,
-                bio,
-                prodileImage,
-                coverImage
-            })
-            mutateFetchedUser();
+  const bodyContent = (
+    <div className="flex flex-col gap-4">
+      <Input
+        placeholder="Name"
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+        disabled={isLoading}  
+      />
+      <Input 
+        placeholder="Username"
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        disabled={isLoading} 
+      />
+      <Input 
+        placeholder="Bio"
+        onChange={(e) => setBio(e.target.value)}
+        value={bio}
+        disabled={isLoading} 
+      />
+    </div>
+  )
 
-            toast.success('Updated')
-
-        } catch(error){
-            toast.error('Something went wrong')
-        } finally{
-            setIsLoading(false)
-
-        }
-    },[name, username, bio, prodileImage, coverImage, editModal, mutateFetchedUser])
-    return (
-        <Modal
-        disabled={isLoading}
-        isOpen={editModal.isOpen}
-        title="Edit your profile"
-        actionLabel="Save"
-        onClose={editModal.onClose}
-        onSubmit={onSubmit}
-        />)
+  return (
+    <Modal
+      disabled={isLoading}
+      isOpen={editModal.isOpen}
+      title="Edit your profile"
+      actionLabel="Save"
+      onClose={editModal.onClose}
+      onSubmit={onSubmit}
+      body={bodyContent}
+    />
+  );
 }
 
-export default  EditModal
+export default EditModal;

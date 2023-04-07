@@ -37,12 +37,6 @@ const EditModal = () => {
 
      await axios.patch('/api/edit', { name, username, bio, profileImage, coverImage });
 
-    // const request = await fetch(`/api/edit ${{name, username, bio, profileImage, coverImage}}`);
-    // const response = await request.json();
-
-    // console.log("TEST: ",response);
-    
-     
       mutateFetchedUser();
 
       toast.success('Updated');

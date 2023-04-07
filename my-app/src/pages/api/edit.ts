@@ -14,8 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { name, username, bio, profileImage, coverImage } = req.body;
 
-    console.log("LMLM: ",req.body);
-    console.log("lmlmlmlmml: ",bio);
     
 
     if (!name || !username) {
@@ -34,7 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         coverImage
       }
     });
-    console.log(updatedUser)
     return res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error);

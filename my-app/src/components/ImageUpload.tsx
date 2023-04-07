@@ -1,5 +1,6 @@
 import{useDropzone} from 'react-dropzone'
 import {useState, useCallback} from 'react'
+import Image from 'next/image';
 
 interface ImageUploadProps{
     value:string;
@@ -30,7 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> =({value,disabled,label,onChange})
     },[handleChange])
 
     const { getRootProps, getInputProps } = useDropzone({
-        maxFiles:1,
+        maxFiles:10,
         onDrop: handleDrop,
         disabled,
         accept:{
@@ -41,9 +42,29 @@ const ImageUpload: React.FC<ImageUploadProps> =({value,disabled,label,onChange})
     })
 
     return(
-        <div>
+        <div {...getRootProps({className: 'w-full p-4 text-white cursor-pointer text-center border-2 border-dotted rounded-md border-neutral-700'})}>
+
+
+            <input {...getInputProps()}/>
+            {
+                base64 ? (
+                    <div className='flex items-center justify-center'>
+                        <Image
+                        src={base64}
+                        height="100"
+                        width="100"
+                        alt="Uploaded image"
+                        />
+                    </div>
+                ) : ( 
+                    <p className='text-white'>{label}</p>
+                )
+            }
+
+
         
         </div>
+        
     )
 }
 

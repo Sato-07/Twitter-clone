@@ -35,8 +35,7 @@ const EditModal = () => {
     try {
       setIsLoading(true);
 
-     const test = await axios.patch('/api/edit', { name, username, bio, profileImage, coverImage });
-     console.log("TEST: ",test);
+     await axios.patch('/api/edit', { name, username, bio, profileImage, coverImage });
 
     // const request = await fetch(`/api/edit ${{name, username, bio, profileImage, coverImage}}`);
     // const response = await request.json();
@@ -67,7 +66,7 @@ const EditModal = () => {
       <ImageUpload
       value={coverImage}
       disabled={isLoading}
-      onChange={(image)=> setProfileImage(image)}
+      onChange={(image)=> setCoverImage(image)}
       label="Upload cover image"
       />
       <Input

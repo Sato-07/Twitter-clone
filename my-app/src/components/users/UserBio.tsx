@@ -35,7 +35,11 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         {currentUser?.id === userId ? (
           <Button secondary label="Edit" onClick={editModal.onOpen} />
         ) : (
-          <Button
+          <Button 
+          onClick={()=>{}}
+          secondary
+          label="Follow"
+
           />
         )}
       </div>

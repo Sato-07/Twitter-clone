@@ -3,11 +3,11 @@
 interface ButtonProps{
     label:string;
     secondary?: boolean;
-    fullWidth: boolean;
+    fullWidth?: boolean;
     large?: boolean;
     onClick:() => void;
     disabled?:boolean;
-    outline:boolean;
+    outline?:boolean;
 }
 
 

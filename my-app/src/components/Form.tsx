@@ -12,7 +12,7 @@ import Avatar from "./Avatar";
 interface FormProps{
     placeholder:string;
     isComment?:boolean;
-    postId: string;
+    postId?: string;
 }
 
 

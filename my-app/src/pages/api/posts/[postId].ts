@@ -7,7 +7,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse) {
         return res.status(405).end()
     }
     try{
-        const { postId } = req.body
+        const { postId } = req.query
 
         if(!postId || typeof postId !== 'string'){
             throw new Error('Inavlid ID')

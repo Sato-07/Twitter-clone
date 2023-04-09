@@ -19,6 +19,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 
   const editModal = useEditModal();
 
+  const { isFollowing, toggleFollow } = useFollow(userId);
 
   const createdAt = useMemo(() => {
     if (!fetchedUser?.createdAt) {
@@ -35,11 +36,11 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         {currentUser?.id === userId ? (
           <Button secondary label="Edit" onClick={editModal.onOpen} />
         ) : (
-          <Button 
-          onClick={()=>{}}
-          secondary
-          label="Follow"
-
+          <Button
+            onClick={toggleFollow} 
+            label={isFollowing ? 'Unfollow' : 'Follow'}
+            secondary={!isFollowing}
+            outline={isFollowing}
           />
         )}
       </div>

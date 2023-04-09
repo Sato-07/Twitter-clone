@@ -1,54 +1,53 @@
-import { useCallback, useMemo } from "react"
-import useCurrentUser from "./useCurrentUser"
-import usePost from "./usePost"
-import UseLoginModal from "./userLoginModal"
-import { toast } from "react-hot-toast"
-import axios from "axios"
+import axios from "axios";
+import { useCallback, useMemo } from "react";
+import { toast } from "react-hot-toast";
 
+import useCurrentUser from "./useCurrentUser";
+import useLoginModal from "./userLoginModal";
+import usePost from "./usePost";
+import usePosts from "./usePosts";
 
-const useLike = ({postId, userId}: {postId: string, userId?: string}) => {
+const useLike = ({ postId, userId }: { postId: string, userId?: string }) => {
+  const { data: currentUser } = useCurrentUser();
+  const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(postId);
+  const { mutate: mutateFetchedPosts } = usePosts(userId);
 
-    const { data: currentUser } = useCurrentUser()
-    const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(postId)
-    const { mutate: mutateFetchedPosts } = usePost(userId as string)
+  const loginModal = useLoginModal();
 
+  const hasLiked = useMemo(() => {
+    const list = fetchedPost?.likedIds || [];
 
-     const loginModal = UseLoginModal()
+    return list.includes(currentUser?.id);
+  }, [fetchedPost, currentUser]);
 
-     const hasLiked = useMemo(()=> {
-        const list = fetchedPost?.likedIds || []
+  const toggleLike = useCallback(async () => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
 
-        return list.includes(currentUser?.id)
-     },[currentUser?.id, fetchedPost?.likedIds])
+    try {
+      let request;
 
-     const toggleLike = useCallback(async () => {
-        if(!currentUser){
-            return loginModal.onOpen()
-        }
-        try{
-            let request;
+      if (hasLiked) {
+        request = () => axios.delete('/api/like', { data: { postId } });
+      } else {
+        request = () => axios.post('/api/like', { postId });
+      }
 
-            if(hasLiked){
-                request = () => axios.delete('/api/like',{ data:{postId}})
-            }else{
-                request = () => axios.post('/api/like', { postId })
-            }
+      await request();
+      mutateFetchedPost();
+      mutateFetchedPosts();
 
-            await request;
-            mutateFetchedPosts()
-            mutateFetchedPost()
+      toast.success('Success');
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
+  }, [currentUser, hasLiked, postId, mutateFetchedPosts, mutateFetchedPost, loginModal]);
 
-            toast.success('Succes')
-
-        }catch(error){
-            toast.error('Something went wrong')
-        }
-     },[currentUser, hasLiked, postId, mutateFetchedPost, mutateFetchedPosts, loginModal])
-
-     return {
-        hasLiked,
-        toggleLike
-     }
+  return {
+    hasLiked,
+    toggleLike,
+  }
 }
 
-export default useLike
+export default useLike;

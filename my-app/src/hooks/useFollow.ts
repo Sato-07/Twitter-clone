@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-hot-toast";
@@ -17,9 +16,9 @@ const useFollow = (userId: string) => {
     const list = currentUser?.followingIds || [];
 
     return list.includes(userId);
-  }, [currentUser.followingIds, userId]);
+  }, [currentUser?.followingIds, userId]);
 
-  const toggleFollow = useCallback(async () => {
+  const toggleFollow = useCallback( async () => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
@@ -36,7 +35,7 @@ const useFollow = (userId: string) => {
       await request();
       mutateCurrentUser();
       mutateFetchedUser();
-      console.log(request)
+
       toast.success('Success');
     } catch (error) {
       toast.error('Something went wrong');

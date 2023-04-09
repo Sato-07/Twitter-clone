@@ -1,6 +1,7 @@
 import Form from "@/components/Form"
 import Header from "@/components/Header"
 import PostItem from "@/components/posts/PostItem"
+import CommentFeed from "@/components/posts/CommentFeed"
 import usePost from "@/hooks/usePost"
 import { useRouter } from "next/router"
 import { ClipLoader } from "react-spinners"
@@ -25,6 +26,7 @@ const PostView = () => {
         <Header label="Tweet" showBackArrow/>
         <PostItem data={fetchedPost} />
         <Form postId={postId as string} isComment placeholder="Tweet your reply"/>
+        <CommentFeed/>
         </>
     )
 }

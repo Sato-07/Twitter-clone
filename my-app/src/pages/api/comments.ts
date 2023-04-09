@@ -13,7 +13,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
         const { postId } = req.query
 
         if(!postId || typeof postId !== 'string'){
-            throw new Error("Ivanlid ID")
+            throw new Error("Invalid ID")
         }
 
         const comment = await prisma.comment.create({

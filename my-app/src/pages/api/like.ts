@@ -47,7 +47,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse){
                 likedIds: updatedLikedIds
             }
         })
-
+        return res.status(200).json(updatedPost)
     }catch(error){
         console.log(error)
         return res.status(400).end()

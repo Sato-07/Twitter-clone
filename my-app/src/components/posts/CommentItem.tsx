@@ -15,7 +15,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ data = {} }) => {
     const goToUser  = useCallback((event:any)=>{
         event.stopPropagation
 
-        router.push(`/user/${data.user.id}`)
+        router.push(`/users/${data.user.id}`)
     },[router, data.user.id])
 
 

@@ -16,9 +16,9 @@ const useFollow = (userId: string) => {
     const list = currentUser?.followingIds || [];
 
     return list.includes(userId);
-  }, [currentUser?.followingIds, userId]);
+  }, [currentUser, userId]);
 
-  const toggleFollow = useCallback( async () => {
+  const toggleFollow = useCallback(async () => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
@@ -33,8 +33,7 @@ const useFollow = (userId: string) => {
       }
 
       await request();
-      mutateCurrentUser();
-      mutateFetchedUser();
+      await Promise.all([mutateCurrentUser(), mutateFetchedUser()])
 
       toast.success('Success');
     } catch (error) {
